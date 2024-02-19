@@ -13,7 +13,8 @@ $ git clone https://github.com/hongjiaherng/storm-damage-detection.git
 Create a new venv
 ```bash
 $ conda create -n storm-damage-detection python=3.11
-$ conda install -r requirements.txt
+$ pip install -r requirements-cuda.txt # If you have a CUDA-compatible GPU
+$ pip install -r requirements-cpu.txt # If you don't have a CUDA-compatible GPU
 ```
 
 Download data
