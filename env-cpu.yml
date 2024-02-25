@@ -1,0 +1,29 @@
+name: storm-damage-detection-cpu
+channels:
+  - pytorch
+  - defaults # default channel's prioritized over conda-forge
+  - conda-forge
+dependencies:
+  - defaults::python=3.11.*
+  - defaults::pip
+  - pytorch::pytorch=2.2.*
+  - pytorch::cpuonly # TODO: comment this if you are using a Mac with >= M1 chip (torch supports M1 GPU natively)
+  - conda-forge::gdal
+  - conda-forge::xarray
+  - pip:
+    - torchvision==0.17.*
+    - torchaudio==2.2.*
+    - rasterio
+    - rioxarray
+    - xarray-spatial
+    - pystac-client
+    - planetary-computer
+    - odc-stac
+    - odc-algo
+    - gdown
+    - huggingface_hub
+    - python-dotenv
+    - ultralytics
+    - opencv-python-headless
+    - labelme2yolo
+    - ipykernel     # TODO: jupyter kernel for notebook/lab, comment it out if you are not planning to use them 

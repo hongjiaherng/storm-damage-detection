@@ -1,0 +1,30 @@
+name: storm-damage-detection-cuda
+channels:
+  - pytorch
+  - nvidia # additional channel for CUDA installation
+  - defaults # default channel's prioritized over conda-forge
+  - conda-forge
+dependencies:
+  - defaults::python=3.11.*
+  - defaults::pip
+  - pytorch::pytorch=2.2.*
+  - pytorch::pytorch-cuda=12.1
+  - conda-forge::gdal
+  - conda-forge::xarray
+  - pip:
+    - torchvision==0.17.*
+    - torchaudio==2.2.*
+    - rasterio
+    - rioxarray
+    - xarray-spatial
+    - pystac-client
+    - planetary-computer
+    - odc-stac
+    - odc-algo
+    - gdown
+    - huggingface_hub
+    - python-dotenv
+    - ultralytics
+    - opencv-python-headless
+    - labelme2yolo
+    - ipykernel     # TODO: jupyter kernel for notebook/lab, comment it out if you are not planning to use them 
