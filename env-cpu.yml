@@ -2,6 +2,7 @@ name: storm-damage-detection
 channels:
   - pytorch
   - conda-forge
+  - nodefaults
 dependencies:
   - conda-forge::python>=3.8 # Least version of Python required for PyTorch
   - conda-forge::pip

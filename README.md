@@ -60,7 +60,7 @@ Follow these steps to set up the environment on your local machine:
   $ jupyter kernelspec list # Now you should see your new venv
   ```
 
-  Note: If you are using editors like VSCode for opening the notebook, the editor will automatically set up the kernel for you.
+  _Note: If you are using editors like VSCode for opening the notebook, the editor will automatically set up the kernel for you._
 
 #### Microsoft Planetary Computer
 

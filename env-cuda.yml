@@ -3,6 +3,7 @@ channels:
   - pytorch
   - nvidia # additional channel for CUDA installation
   - conda-forge
+  - nodefaults
 dependencies:
   - conda-forge::python>=3.8 # Least version of Python required for PyTorch
   - conda-forge::pip
