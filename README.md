@@ -1,60 +1,120 @@
 # storm-damage-detection
 
-Requirements:
+## Getting Started
 
-- conda
+### Requirements
 
-Cloning in an environment without your GitHub credentials (e.g., Google Colab, Paperspace, etc.)
+- conda >= 24.1.0
 
-```bash
-$ git clone https://<personal-access-token>@github.com/hongjiaherng/storm-damage-detection.git
-```
-
-Cloning (as a collaborator)
+If you don't have conda installed, you can download it [here](https://docs.anaconda.com/free/miniconda/miniconda-install/). If you already have conda installed, update it to the latest version with the following:
 
 ```bash
-$ git clone https://github.com/hongjiaherng/storm-damage-detection.git
+$ conda --version
+$ conda update -n base conda # update conda to the latest version
 ```
 
-Create a new venv
+### Setting Up the Environment
 
-```bash
-$ conda env create -f env-cuda.yml # If you have a CUDA-compatible GPU
-$ conda env create -f env-cpu.yml # If you don't have a CUDA-compatible GPU
-$ conda activate <venv-name>
-```
+#### Local Machine
 
-Update dependencies based on the env file
+Follow these steps to set up the environment on your local machine:
 
-```bash
-$ conda env update -f env-cuda.yml # If you have a CUDA-compatible GPU
-$ conda env update -f env-cpu.yml # If you don't have a CUDA-compatible GPU
-```
+1. Prerequisites: Clone the repository
 
-Download data
+   - Cloning as a collaborator
 
-```bash
-$ python -m scripts.download_data # python ./scripts/download_data.py
-```
+   ```bash
+   $ git clone https://github.com/hongjiaherng/storm-damage-detection.git
+   $ cd <path-to-repo>
+   ```
 
-Add a new jupyter kernel
+   - Cloning on a machine without your GitHub credentials
 
-```bash
-$ jupyter kernelspec list # List all kernels, but you won't see your new venv yet
-$ python -m ipykernel install --name <venv-name> --display-name <display-name> # <venv-name> can be the same as <display-name>
-$ jupyter kernelspec list # Now you should see your new venv
-```
+   ```bash
+   $ git clone https://<personal-access-token>@github.com/hongjiaherng/storm-damage-detection.git # If you are running on a machine without your GitHub credentials
+   $ cd <path-to-repo>
+   ```
 
-Remove a jupyter kernel (if you ever need to)
+2. Create a new venv: Use either `env-cuda.yml` or `env-cpu.yml` file based on your hardware
 
-```bash
-$ jupyter kernelspec list # List all kernels, including your new venv
-$ jupyter kernelspec uninstall <venv-name> # <venv-name> is the name of your venv
-$ jupyter kernelspec list # Now you shouldn't see your new venv
-```
+   - For CUDA-compatible GPU:
 
-Supplying a Planetary Computer API key to avoid rate limiting (optional). Refer [here](https://pypi.org/project/planetary-computer/) for more info.
+   ```bash
+   $ conda env create -f env-cuda.yml
+   $ conda activate storm-damage-detection
+   ```
 
-```bash
-$ planetarycomputer configure <api-key> # request one from planetary computer hub's token section
-```
+   - For CPU (check `env-cpu.yml` if you have a Mac with >= M1 chip):
+
+   ```bash
+   $ conda env create -f env-cpu.yml
+   $ conda activate storm-damage-detection
+   ```
+
+3. Add a jupyter kernel (optional)
+
+- If you intend to use Jupyter Notebook/Lab, follow these steps:
+
+  ```bash
+  $ python -m ipykernel install --name storm-damage-detection --display-name storm-damage-detection
+  $ jupyter kernelspec list # Now you should see your new venv
+  ```
+
+  Note: If you are using editors like VSCode for opening the notebook, the editor will automatically set up the kernel for you.
+
+#### Microsoft Planetary Computer
+
+Assuming that PyTorch image is used for the Microsoft Planetary Computer, follow these steps:
+
+1. Prerequisites: Clone the repository
+
+   ```bash
+   $ git clone https://<personal-access-token>@github.com/hongjiaherng/storm-damage-detection.git
+   $ cd <path-to-repo>
+   ```
+
+2. Upgrade conda to the latest version (24.1.2 at the time of writing)
+
+   ```bash
+   $ conda remove -n base -y mamba # Remove mamba if present, new version of conda doesn't need mamba anymore, it causes issues when trying to update conda to the latest version
+   $ conda update -n base -y conda # Update conda to the latest version
+   ```
+
+3. Create a new venv using `env-cuda.yml`
+
+   ```bash
+   $ conda deactivate # deactivate the current venv
+   $ conda env create -f env-cuda.yml
+   $ conda activate storm-damage-detection
+   ```
+
+4. Add a jupyter kernel for the new venv
+
+   ```bash
+   $ python -m ipykernel install --name storm-damage-detection --display-name storm-damage-detection --user
+   $ jupyter kernelspec list # Now you should see your new venv
+   ```
+
+5. Now you can open up a notebook and select the newly created kernel (`storm-damage-detection`) to run the notebook with the new environment.
+
+## Miscellaneous
+
+- Remove a jupyter kernel (if you ever need to)
+
+  ```bash
+  $ jupyter kernelspec list # List all kernels, including the venv you want to remove
+  $ jupyter kernelspec uninstall <venv-name> # <venv-name> is the name of your venv
+  $ jupyter kernelspec list # Now you shouldn't see your new venv
+  ```
+
+- Supply a Planetary Computer API key to avoid rate limiting (optional). Refer [here](https://pypi.org/project/planetary-computer/) for more info.
+
+  ```bash
+  $ planetarycomputer configure <api-key> # request one from planetary computer hub's token section
+  ```
+
+- Download data
+
+  ```bash
+  $ python -m scripts.download_data # python ./scripts/download_data.py
+  ```

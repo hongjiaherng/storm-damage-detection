@@ -1,33 +1,32 @@
-name: storm-damage-detection-cuda
+name: storm-damage-detection
 channels:
   - pytorch
   - nvidia # additional channel for CUDA installation
-  - defaults # default channel's prioritized over conda-forge
   - conda-forge
 dependencies:
-  - defaults::python=3.11.*
-  - defaults::pip
+  - conda-forge::python>=3.8 # Least version of Python required for PyTorch
+  - conda-forge::pip
+  - conda-forge::ipykernel # TODO: jupyter kernel for notebook/lab, comment it out if you are not planning to use them
+  # PyTorch with CUDA and other PyTorch related packages
   - pytorch::pytorch=2.2.*
   - pytorch::pytorch-cuda=12.1
+  - pytorch::torchvision=0.17.*
+  - pytorch::torchaudio=2.2.*
+  # Packages for geospatial data processing and for accessing Landsat and Sentinel-2 APIs
   - conda-forge::gdal
   - conda-forge::xarray
+  - conda-forge::rasterio
+  - conda-forge::rioxarray
+  - conda-forge::xarray-spatial
+  - conda-forge::odc-stac
+  - conda-forge::odc-algo
+  - conda-forge::pystac-client
+  - conda-forge::planetary-computer
+  # Additional packages
+  - conda-forge::ultralytics
+  - conda-forge::python-dotenv
+  - conda-forge::huggingface_hub
+  - conda-forge::gdown
   - pip:
-    # Packages for accessing Landsat & Sentinel-2
-    - rasterio
-    - rioxarray
-    - xarray-spatial
-    - pystac-client
-    - planetary-computer
-    - odc-stac
-    - odc-algo
-    # Packages for YOLO
-    - ultralytics
-    - opencv-python-headless
-    - labelme2yolo
-    # Additional packages
-    - torchvision==0.17.*
-    - torchaudio==2.2.*
-    - gdown
-    - huggingface_hub
-    - python-dotenv
-    - ipykernel     # TODO: jupyter kernel for notebook/lab, comment it out if you are not planning to use them 
+      - labelme2yolo
+      - opencv-python-headless
