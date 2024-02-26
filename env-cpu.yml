@@ -7,12 +7,11 @@ dependencies:
   - defaults::python=3.11.*
   - defaults::pip
   - pytorch::pytorch=2.2.*
-  - pytorch::cpuonly # TODO: comment this if you are using a Mac with >= M1 chip (torch supports M1 GPU natively)
+  - pytorch::cpuonly # TODO: comment this if you are using a Mac with >= M1 chip (torch supports M1 GPU natively with metal backend)
   - conda-forge::gdal
   - conda-forge::xarray
   - pip:
-    - torchvision==0.17.*
-    - torchaudio==2.2.*
+    # Packages for accessing Landsat & Sentinel-2
     - rasterio
     - rioxarray
     - xarray-spatial
@@ -20,10 +19,14 @@ dependencies:
     - planetary-computer
     - odc-stac
     - odc-algo
-    - gdown
-    - huggingface_hub
-    - python-dotenv
+    # Packages for YOLO
     - ultralytics
     - opencv-python-headless
     - labelme2yolo
+    # Additional packages
+    - torchvision==0.17.*
+    - torchaudio==2.2.*
+    - gdown
+    - huggingface_hub
+    - python-dotenv
     - ipykernel     # TODO: jupyter kernel for notebook/lab, comment it out if you are not planning to use them 

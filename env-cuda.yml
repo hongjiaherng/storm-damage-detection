@@ -12,8 +12,7 @@ dependencies:
   - conda-forge::gdal
   - conda-forge::xarray
   - pip:
-    - torchvision==0.17.*
-    - torchaudio==2.2.*
+    # Packages for accessing Landsat & Sentinel-2
     - rasterio
     - rioxarray
     - xarray-spatial
@@ -21,10 +20,14 @@ dependencies:
     - planetary-computer
     - odc-stac
     - odc-algo
-    - gdown
-    - huggingface_hub
-    - python-dotenv
+    # Packages for YOLO
     - ultralytics
     - opencv-python-headless
     - labelme2yolo
+    # Additional packages
+    - torchvision==0.17.*
+    - torchaudio==2.2.*
+    - gdown
+    - huggingface_hub
+    - python-dotenv
     - ipykernel     # TODO: jupyter kernel for notebook/lab, comment it out if you are not planning to use them 
