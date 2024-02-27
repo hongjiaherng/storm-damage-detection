@@ -22,6 +22,7 @@ dependencies:
   - conda-forge::odc-algo
   - conda-forge::pystac-client
   - conda-forge::planetary-computer
+  # - conda-forge::ocl-icd-system # TODO: install this only if you are on Linux
   # Additional packages
   - conda-forge::ultralytics
   - conda-forge::python-dotenv
