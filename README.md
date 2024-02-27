@@ -15,7 +15,7 @@ conda update -n base conda # Update conda to the latest version
 
 ### Setting Up the Environment
 
-<details open>
+<details>
 <summary><b>Local Machine</b></summary>
 
 Follow these steps to set up the environment on your local machine:
@@ -57,7 +57,7 @@ Follow these steps to set up the environment on your local machine:
 
 </details>
 
-<details open>
+<details>
 <summary><b>Microsoft Planetary Computer</b></summary>
 
 Follow these steps to set up the environment on Microsoft Planetary Computer:
