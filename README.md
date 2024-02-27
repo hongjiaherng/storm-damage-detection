@@ -22,38 +22,38 @@ Follow these steps to set up the environment on your local machine:
 
 1. Prerequisites: Clone the repository
 
-```bash
-# Cloning as a collaborator
-git clone https://github.com/hongjiaherng/storm-damage-detection.git
+   ```bash
+   # Cloning as a collaborator
+   git clone https://github.com/hongjiaherng/storm-damage-detection.git
 
-# Or if you are running on a machine without your GitHub credentials
-git clone https://<personal-access-token>@github.com/hongjiaherng/storm-damage-detection.git
+   # Or if you are running on a machine without your GitHub credentials
+   git clone https://<personal-access-token>@github.com/hongjiaherng/storm-damage-detection.git
 
-cd <path-to-repo>
-```
+   cd <path-to-repo>
+   ```
 
 2. Create a new venv: Use either `env-cuda.yml` or `env-cpu.yml` file based on your hardware
 
-```bash
-# For CUDA-compatible GPU:
-conda env create -f env-cuda.yml
-conda activate storm-damage-detection
+   ```bash
+   # For CUDA-compatible GPU:
+   conda env create -f env-cuda.yml
+   conda activate storm-damage-detection
 
-# For CPU (check `env-cpu.yml` if you have a Mac with >= M1 chip):
-conda env create -f env-cpu.yml
-conda activate storm-damage-detection
-```
+   # For CPU (Some actions needed on `env-cpu.yml` if you have a Mac with >= M1 chip):
+   conda env create -f env-cpu.yml
+   conda activate storm-damage-detection
+   ```
 
 3. Add a jupyter kernel (optional)
 
-If you intend to use Jupyter Notebook/Lab, follow these steps:
+   If you intend to use Jupyter Notebook/Lab, follow these steps:
 
-```bash
-python -m ipykernel install --name storm-damage-detection --display-name storm-damage-detection
-jupyter kernelspec list # Now you should see your new venv
-```
+   ```bash
+   python -m ipykernel install --name storm-damage-detection --display-name storm-damage-detection
+   jupyter kernelspec list # Now you should see your new venv
+   ```
 
-_Note: If you are using editors like VSCode for opening the notebook, the editor will automatically set up the kernel for you._
+   _Note: If you are using editors like VSCode for opening the notebook, the editor will automatically set up the kernel for you._
 
 </details>
 
@@ -64,15 +64,15 @@ Follow these steps to set up the environment on Microsoft Planetary Computer:
 
 1. Prerequisites: Clone the repository
 
-```bash
-git clone https://<personal-access-token>@github.com/hongjiaherng/storm-damage-detection.git
-cd <path-to-repo>
-```
+   ```bash
+   git clone https://<personal-access-token>@github.com/hongjiaherng/storm-damage-detection.git
+   cd <path-to-repo>
+   ```
 
 2. Update conda to the latest version (24.1.2 as of writing)
 
    <details open>
-   <summary><b>GPU - PyTorch</b> Image</summary>
+   <summary>Image: <b>GPU - PyTorch</b></summary>
 
    ```bash
    # Remove mamba if present, newer conda doesn't need mamba anymore. Currently, it causes conflict when trying to update conda to the latest version
@@ -83,7 +83,7 @@ cd <path-to-repo>
    </details>
 
    <details open>
-   <summary><b>CPU - Python</b> Image</summary>
+   <summary>Image: <b>CPU - Python</b></summary>
 
    ```bash
    # Reset the default solver to classic
@@ -104,23 +104,23 @@ cd <path-to-repo>
    _Note: The version of conda on this image is broken (version 23.1.0): It doesn't support `libmamba` as the solver but it's still being set as the default solver._
    </details>
 
-3. Create a new venv using `env-cuda.yml` or `env-cpu.yml` file based on your hardware. Also, check the file for any changes in the dependencies based on your environment.
+3. Create a new venv using `env-cuda.yml` or `env-cpu.yml` file based on your hardware. Also, check the file for any changes in the dependencies based on your environment _(Some actions needed if you're on Linux)_.
 
-```bash
-conda deactivate # Deactivate the current venv
+   ```bash
+   conda deactivate # Deactivate the current venv
 
-conda env create -f env-cuda.yml # For GPU - PyTorch image
-conda env create -f env-cpu.yml # Or for CPU - Python image
+   conda env create -f env-cuda.yml # For GPU - PyTorch image
+   conda env create -f env-cpu.yml # Or for CPU - Python image
 
-conda activate storm-damage-detection # Activate the new venv
-```
+   conda activate storm-damage-detection # Activate the new venv
+   ```
 
 4. Add a jupyter kernel for the new venv
 
-```bash
-python -m ipykernel install --name storm-damage-detection --display-name storm-damage-detection --user
-jupyter kernelspec list # Now you should see your new venv
-```
+   ```bash
+   python -m ipykernel install --name storm-damage-detection --display-name storm-damage-detection --user
+   jupyter kernelspec list # Now you should see your new venv
+   ```
 
 5. Now you can open up a notebook and select the newly created kernel (`storm-damage-detection`) to run the notebook.
 
