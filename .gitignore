@@ -1,6 +1,9 @@
-# Data files
+# Datasets files
 datasets/*
 data/*
+
+# Training logs
+runs/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
