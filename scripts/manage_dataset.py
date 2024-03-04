@@ -107,6 +107,9 @@ def download_from_hub(with_git_lfs: bool) -> bool:
                 repo.git_pull()
 
             else:
+                if len(os.listdir(HUB_PATH)) > 0:  # Check if folder is empty
+                    shutil.rmtree(HUB_PATH)
+
                 logger.info(f'Cloning the dataset repository from "{REPO_URL}".')
                 repo = Repository(local_dir=HUB_PATH, repo_type="dataset", clone_from=REPO_URL, token=HF_TOKEN)
 
