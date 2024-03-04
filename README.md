@@ -128,6 +128,73 @@ Follow these steps to set up the environment on Microsoft Planetary Computer:
 
 ## Miscellaneous
 
+- Managing dataset
+
+  - Download locally
+
+    ```bash
+    # Clone the dataset locally as a git-lfs repo, this is mandatory if you'd like to perform uploading to HF Hub
+    # - git-lfs is required, download it from https://git-lfs.com/
+    python -m scripts.manage_dataset download
+
+    # Download the dataset locally without treating it as a git-lfs repo, thus you can't perform uploading with this setting
+    # - useful for cloud VM that doesn't have git-lfs install (or you don't have the permission)
+    python -m scripts.manage_dataset download --disable_git_lfs
+    ```
+
+  - Upload to HF Hub
+    ```bash
+    # After making changes to the datasets/storm-damage-detection/working directory, you can now run this script to push the latest changes to HF Hub
+    # Supported --includes choices:
+    # - sdd
+    # - unprep/all_grids
+    # - unprep/building_footprint_roi
+    # - unprep/raw
+    # - unprep/submission_data
+    python -m scripts.manage_dataset upload --includes <folder-to-upload-1> <folder-to-upload-2> ... <folder-to-upload-n>
+    ```
+  - Structure
+
+    Currently, the dataset is structured as described below:
+
+    ```bash
+    - datasets/
+      - storm-damage-detection/
+        - hub/    # hf hub's copy of the dataset, don't make change to this manually
+          - unprep/
+            - all_grids.zip
+            - building_footprint_roi.zip
+            - raw.zip
+            - submission_data.zip
+          - .gitattributes
+          - sdd.zip
+          - README.md
+        - working/    # working copy of the dataset, make changes here
+          - sdd/
+            - train/
+              - images/*.jpg
+              - labels/*.txt
+            - val/
+              - images/*.jpg
+              - labels/*.txt
+            - test/
+              - images/*.jpg
+              - labels/*.txt
+            - sdd.yaml
+            - train.txt
+            - val.txt
+            - test.txt
+          - unprep/    # this is where you'll find the unprocessed data
+            - all_grids/
+              - post_event/...
+              - pre_event/...
+            - building_footprint_roi/...
+            - raw/...
+            - submission_data/...
+    ```
+
+    You are expected to only make changes to the dataset within the 5 main folders `["sdd", "unprep/all_grids", "unprep/building_footprint_roi", "unprep/raw", "unprep/submission_data"]`. After you update the contents in the folder, you can then run the upload script as shown above to upload the latest changes to HF Hub. Under the hood, it'll zip each of the folders, and override them in the `datasets/storm-damage-detection/hub` directory.
+
 - Remove a jupyter kernel (if you ever need to)
 
   ```bash
@@ -140,10 +207,4 @@ Follow these steps to set up the environment on Microsoft Planetary Computer:
 
   ```bash
   planetarycomputer configure <api-key> # request one from planetary computer hub's token section
-  ```
-
-- Download data
-
-  ```bash
-  python -m scripts.download_data # python ./scripts/download_data.py
   ```
