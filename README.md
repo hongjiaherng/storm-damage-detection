@@ -32,7 +32,7 @@ Follow these steps to set up the environment on your local machine:
    cd <path-to-repo>
    ```
 
-2. Create a new venv: Use either `env-cuda.yml` or `env-cpu.yml` file based on your hardware
+2. Create a new venv: Use either `env-cuda.yml` or `env-cpu.yml` file based on your hardware _(Some actions needed in this file if you aren't on Linux)_.
 
    ```bash
    # For CUDA-compatible GPU:
@@ -104,7 +104,7 @@ Follow these steps to set up the environment on Microsoft Planetary Computer:
    _Note: The version of conda on this image is broken (version 23.1.0): It doesn't support `libmamba` as the solver but it's still being set as the default solver._
    </details>
 
-3. Create a new venv using `env-cuda.yml` or `env-cpu.yml` file based on your hardware. Also, check the file for any changes in the dependencies based on your environment _(Some actions needed if you're on Linux)_.
+3. Create a new venv using `env-cuda.yml` or `env-cpu.yml` file based on your hardware. Also, check the file for any changes in the dependencies based on your environment.
 
    ```bash
    conda deactivate # Deactivate the current venv
