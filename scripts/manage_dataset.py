@@ -1,5 +1,6 @@
 import argparse
 import logging
+import subprocess
 import os
 import shutil
 import warnings
@@ -8,11 +9,13 @@ from typing import List
 
 from dotenv import load_dotenv
 from huggingface_hub.repository import Repository, is_local_clone
+from huggingface_hub import snapshot_download
 
 ROOT_PATH = Path(__file__).parent.parent.resolve().as_posix()
 HUB_PATH = Path(ROOT_PATH, "datasets/storm-damage-detection/hub").as_posix()
 WORKING_PATH = Path(ROOT_PATH, "datasets/storm-damage-detection/working").as_posix()
-REPO_URL = "https://huggingface.co/datasets/jherng/storm-damage-detection"
+REPO_ID = "jherng/storm-damage-detection"
+REPO_URL = f"https://huggingface.co/datasets/{REPO_ID}"
 
 
 # Suppress warnings
@@ -33,6 +36,12 @@ def prepare_hub_dataset(includes: List[str]) -> bool:
     """Prepare the dataset for upload to the Hugging Face Hub."""
 
     try:
+        if not is_local_clone(HUB_PATH, remote_url=REPO_URL):  # Check if the dataset is a git lfs clone
+            logger.error(
+                "The dataset in the hub directory is not a git cloned repository. Please clone the dataset first."
+            )
+            return False
+
         logger.info("Clearing any existing files in the hub directory.")
         for fname in includes:
             if Path(HUB_PATH, f"{fname}.zip").exists():
@@ -68,20 +77,38 @@ def upload_to_hub() -> None:
     repo.push_to_hub(auto_lfs_prune=True)
 
 
-def download_from_hub() -> bool:
+def download_from_hub(with_git_lfs: bool) -> bool:
     """Check if the dataset is already cloned, if not clone it, otherwise pull the latest changes"""
     logger.info("Checking the local dataset repository in the hub directory.")
     os.makedirs(HUB_PATH, exist_ok=True)
 
     try:
-        if is_local_clone(HUB_PATH, remote_url=REPO_URL):  # Check if the dataset is already cloned
-            logger.info(f'Dataset already cloned, pulling any latest change from "{REPO_URL}".')
-            repo = Repository(local_dir=HUB_PATH, repo_type="dataset", token=HF_TOKEN)
-            repo.git_pull()
+        if not with_git_lfs:
+            # Ugly code to force remove the existing files in the hub directory (might contain .git folder which can't be removed by shutil.rmtree)
+            if os.name == "nt":
+                subprocess.check_output(["cmd", "/C", "rmdir", "/S", "/Q", HUB_PATH])  # windows
+            else:
+                subprocess.check_output(["rm", "-rf", HUB_PATH])  # unix based
 
-        else:
-            logger.info(f'Cloning the dataset repository from "{REPO_URL}".')
-            repo = Repository(local_dir=HUB_PATH, repo_type="dataset", clone_from=REPO_URL, token=HF_TOKEN)
+            logger.info(f'Download the dataset repository without Git LFS from "{REPO_URL}".')
+
+            snapshot_download(
+                repo_id=REPO_ID,
+                repo_type="dataset",
+                local_dir=HUB_PATH,
+                local_dir_use_symlinks=False,
+                token=HF_TOKEN,
+            )
+
+        else:  # Download with Git LFS
+            if is_local_clone(HUB_PATH, remote_url=REPO_URL):  # Check if the dataset is already cloned
+                logger.info(f'Dataset already cloned, pulling any latest change from "{REPO_URL}".')
+                repo = Repository(local_dir=HUB_PATH, repo_type="dataset", token=HF_TOKEN)
+                repo.git_pull()
+
+            else:
+                logger.info(f'Cloning the dataset repository from "{REPO_URL}".')
+                repo = Repository(local_dir=HUB_PATH, repo_type="dataset", clone_from=REPO_URL, token=HF_TOKEN)
 
         return True
 
@@ -97,6 +124,11 @@ if __name__ == "__main__":
 
     subparsers = parser.add_subparsers(dest="command", required=True)
     download_parser = subparsers.add_parser("download", help="Download the dataset from the Hugging Face Hub.")
+    download_parser.add_argument(
+        "--disable_git_lfs",
+        action="store_true",
+        help="Download the dataset with Git LFS (you won't be able to manage the hub repo with git lfs if this is set to true).",
+    )
     upload_parser = subparsers.add_parser("upload", help="Upload the dataset to the Hugging Face Hub.")
     upload_parser.add_argument(
         "--includes",
@@ -121,7 +153,7 @@ if __name__ == "__main__":
             logger.error("Failed to prepare the dataset for upload to the Hugging Face Hub.")
 
     else:
-        status = download_from_hub()
+        status = download_from_hub(with_git_lfs=not args.disable_git_lfs)
         if status:
             prepare_working_dataset(tracked_files)
             logger.info("Dataset is ready for use at working directory.")
