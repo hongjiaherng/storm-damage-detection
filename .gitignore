@@ -1,3 +1,6 @@
+# Pretrained weights
+*.pt
+
 # Datasets files
 datasets/*
 data/*

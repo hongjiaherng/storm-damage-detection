@@ -31,3 +31,4 @@ dependencies:
   - pip:
       - labelme2yolo
       - opencv-python-headless
+      - tensorboard
