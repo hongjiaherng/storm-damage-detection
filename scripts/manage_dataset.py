@@ -121,7 +121,7 @@ def download_from_hub(with_git_lfs: bool) -> bool:
 
 
 if __name__ == "__main__":
-    tracked_files = ["sdd", "unprep/all_grids", "unprep/building_footprint_roi", "unprep/raw", "unprep/submission_data"]
+    tracked_files = ["sdd", "unprep/all_grids", "unprep/building_footprint_roi", "unprep/raw", "unprep/submission_data", "runs"]
 
     parser = argparse.ArgumentParser(description="Manage the dataset in the Hugging Face Hub.")
 
